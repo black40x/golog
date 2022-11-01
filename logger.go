@@ -3,6 +3,7 @@ package golog
 import (
 	"fmt"
 	"os"
+	"path"
 	"strings"
 	"sync"
 	"time"
@@ -86,7 +87,8 @@ func (l *Logger) rotate() {
 		l.file.Close()
 	}
 
-	l.file, err = os.OpenFile(l.logName(), os.O_CREATE|os.O_APPEND|os.O_RDWR, os.ModePerm)
+	logPath := path.Join(l.options.LogDir, l.logName())
+	l.file, err = os.OpenFile(logPath, os.O_CREATE|os.O_APPEND|os.O_RDWR, os.ModePerm)
 	if err != nil {
 		return
 	}
